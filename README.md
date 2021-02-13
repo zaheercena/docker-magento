@@ -3,28 +3,28 @@ Manual Setup
 Same result as the one-liner above. Just replace magento2.test references with the hostname that you wish to use.
 
 New Projects
-# Download the Docker Compose template:
-curl -s https://raw.githubusercontent.com/markshust/docker-magento/master/lib/template | bash
+### Download the Docker Compose template:
+curl -s https://raw.githubusercontent.com/zaheercena/docker-magento/master/lib/template | bash
 
 # Download the version of Magento you want to use with:
 bin/download 2.4.1
 
 # If the download fails, the script will attempt to download Magento with Composer
 
-# or if you'd rather install with Composer, run:
+ or if you'd rather install with Composer, run:
 #
-# OPEN SOURCE:
-#
-# rm -rf src
+### OPEN SOURCE:
+
+ rm -rf src
 # composer create-project --repository=https://repo.magento.com/ --ignore-platform-reqs --prefer-dist magento/project-community-edition=2.4.1 src
 #
 # COMMERCE:
 #
-# rm -rf src
-# composer create-project --repository=https://repo.magento.com/ --ignore-platform-reqs --prefer-dist magento/project-enterprise-edition=2.4.1 src
+### rm -rf src
+composer create-project --repository=https://repo.magento.com/ --ignore-platform-reqs --prefer-dist magento/project-enterprise-edition=2.4.1 src
 
-# Create a DNS host entry for the site:
-echo "127.0.0.1 ::1 magento2.test" | sudo tee -a /etc/hosts
+### Create a DNS host entry for the site:
+echo "127.0.0.1 ::1 cozmot-m2.test" | sudo tee -a /etc/hosts
 
 # Run the setup installer for Magento:
 bin/setup magento2.test
@@ -32,7 +32,7 @@ bin/setup magento2.test
 open https://magento2.test
 Existing Projects
 # Download the Docker Compose template:
-curl -s https://raw.githubusercontent.com/markshust/docker-magento/master/lib/template | bash
+curl -s https://raw.githubusercontent.com/zaheercena/docker-magento/master/lib/template | bash
 
 # Replace with existing source code of your existing Magento instance:
 cp -R ~/Sites/existing src
@@ -41,32 +41,32 @@ cp -R ~/Sites/existing src
 # Create a DNS host entry for the site:
 echo "127.0.0.1 ::1 yoursite.test" | sudo tee -a /etc/hosts
 
-# Start some containers, copy files to them and then restart the containers:
+### Start some containers, copy files to them and then restart the containers:
 docker-compose up -d
 rm -rf src/vendor
 bin/copytocontainer --all ## Initial copy will take a few minutes...
 
-# Install composer dependencies, then copy artifacts back to the host (for debugging purposes):
+### Install composer dependencies, then copy artifacts back to the host (for debugging purposes):
 bin/composer install
 bin/copyfromcontainer vendor
 
-# Import existing database:
+### Import existing database:
 bin/mysql < backups/magento.sql
 
-# Update database connection details to use the above Docker MySQL credentials:
-# Also note: creds for the MySQL server are defined at startup from env/db.env
-# vi src/app/etc/env.php
+### Update database connection details to use the above Docker MySQL credentials:
+### Also note: creds for the MySQL server are defined at startup from env/db.env
+vi src/app/etc/env.php
 
-# Import app-specific environment settings:
+### Import app-specific environment settings:
 bin/magento app:config:import
 
-# Set base URLs to local environment URL (if not defined in env.php file):
+### Set base URLs to local environment URL (if not defined in env.php file):
 bin/magento config:set web/secure/base_url https://yoursite.test/
 bin/magento config:set web/unsecure/base_url https://yoursite.test/
 
 bin/restart
 
-open https://magento2.test
+open https://cozmot-m2.test
 For more details on how everything works, see the extended setup readme.
 
 Updates
