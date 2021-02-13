@@ -1,5 +1,5 @@
-# Mark Shust's Docker Configuration for Magento
-# (https://github.com/markshust/docker-magento)
+# Zaheer Ahmed's Docker Configuration for Magento
+# (https://github.com/zaheercena/docker-magento)
 #
 # Version 36.0.1
 
@@ -7,7 +7,7 @@ version: "3"
 
 services:
   app:
-    image: markoshust/magento-nginx:1.18-4
+    image: nginx:latest
     ports:
       - "80:8000"
       - "443:8443"
@@ -21,7 +21,7 @@ services:
       - ssldata:/etc/nginx/certs
 
   phpfpm:
-    image: markoshust/magento-php:7.4-fpm-3
+    image: php:7.4-fpm-3
     links:
       - db
     volumes: *appvolumes
@@ -39,7 +39,7 @@ services:
     image: redis:5.0-alpine
 
   elasticsearch:
-    image: markoshust/magento-elasticsearch:7.7.1-0
+    image: elasticsearch:latest
     ports:
       - "9200:9200"
       - "9300:9300"
@@ -57,7 +57,7 @@ services:
 
   # Disabling cron by default as it uses higher CPU, enable if needed
   #cron:
-  #  image: markoshust/magento-php:7.4-fpm-3
+  #  image: php:7.4-fpm-3
   #  user: root
   #  command: /usr/local/bin/cronstart
   #  tty: true
